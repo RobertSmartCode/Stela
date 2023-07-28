@@ -15,7 +15,13 @@ function App() {
     if (windowIndex !== -1) {
       let processedText = inputText.substring(windowIndex);
       processedText = processedText.replace(/\\/g, '');
-      processedText = processedText.replace(/"([^"]*)$/, '$1'); // Eliminar la última comilla doble
+      processedText = processedText.trim(); // Eliminar espacios en blanco al principio y al final
+      if (processedText.startsWith('"')) {
+        processedText = processedText.substring(1); // Eliminar comilla doble al principio
+      }
+      if (processedText.endsWith('"')) {
+        processedText = processedText.substring(0, processedText.length - 1); // Eliminar comilla doble al final
+      }
       processedText = '/' + processedText; // Agregar '/' al principio
       setOutputText(processedText);
     } else {
@@ -65,8 +71,6 @@ function App() {
 }
 
 export default App;
-
-
 
 
 
