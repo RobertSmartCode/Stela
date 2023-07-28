@@ -1,3 +1,4 @@
+/* App.css */
 .container {
   max-width: 600px;
   margin: 0 auto;
@@ -6,6 +7,7 @@
 
 h1 {
   text-align: center;
+  color: #da7b51; /* Cambiar el color del título a naranja */
 }
 
 form {
@@ -21,6 +23,7 @@ textarea {
   border-radius: 5px;
 }
 
+/* Estilos para los botones */
 button {
   display: block;
   margin: 10px auto;
@@ -28,9 +31,22 @@ button {
   font-size: 16px;
   border: none;
   border-radius: 5px;
-  background-color: #007bff;
-  color: #fff;
+  background-color: #da7b51; /* Cambiar el color a naranja */
+  color: #fff; /* Cambiar el color del texto a blanco */
   cursor: pointer;
+}
+
+button[type="submit"] {
+  background-color: #b96233; /* Cambiar el color a un naranja más oscuro */
+  margin-top: 10px;
+}
+
+button[type="submit"]:hover {
+  background-color: #954d25; /* Cambiar el color al hacer hover */
+}
+
+button:hover {
+  background-color: #80441f; /* Cambiar el color al hacer hover */
 }
 
 h2 {

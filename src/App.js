@@ -1,48 +1,63 @@
+import React, { useState, useRef } from 'react';
 import './App.css';
-
-import React, { useState } from 'react';
 
 function App() {
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
-  
+  const outputTextareaRef = useRef(null);
+
   const handleInputChange = (event) => {
     setInputText(event.target.value);
   };
-  
-  const handleFormSubmit = (event) => {
-    event.preventDefault();
-    const processedText = inputText.replace(/\\/g, '');
-    setOutputText(processedText);
+
+  const convertString = () => {
+    const windowIndex = inputText.indexOf('/Window');
+    if (windowIndex !== -1) {
+      let processedText = inputText.substring(windowIndex);
+      processedText = processedText.replace(/\\/g, '');
+      processedText = processedText.replace(/"([^"]*)$/, '$1'); // Eliminar la última comilla doble
+      processedText = '/' + processedText; // Agregar '/' al principio
+      setOutputText(processedText);
+    } else {
+      setOutputText('No se encontró la cadena "/Window"');
+    }
   };
-  
-  const handleCopyClick = () => {
-    const textarea = document.getElementById('outputTextarea');
-    textarea.select();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    convertString();
+  };
+
+  const handleCopyToClipboard = () => {
+    outputTextareaRef.current.select();
     document.execCommand('copy');
   };
 
   return (
     <div className="container">
-      <h1>Eliminar barras invertidas</h1>
-      <form onSubmit={handleFormSubmit}>
+      <h1>Xpath para Stela</h1>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor="inputTextarea">Pega aquí el texto</label>
         <textarea
+          id="inputTextarea"
           value={inputText}
           onChange={handleInputChange}
-          placeholder="Pega aquí el texto con barras invertidas"
+          placeholder="Pega aquí el texto"
         />
-        <button type="submit">Procesar</button>
+        <button type="submit">Convertir</button>
       </form>
       {outputText && (
         <div>
-          <h2>Resultado:</h2>
+          <h2>Cadena convertida:</h2>
+          <label htmlFor="outputTextarea">Cadena convertida</label>
           <textarea
             id="outputTextarea"
+            ref={outputTextareaRef}
             value={outputText}
             readOnly
-            placeholder="Texto sin barras invertidas"
+            placeholder="Texto resultante"
           />
-          <button onClick={handleCopyClick}>Copiar</button>
+          <button onClick={handleCopyToClipboard}>Copiar</button>
         </div>
       )}
     </div>
@@ -50,3 +65,9 @@ function App() {
 }
 
 export default App;
+
+
+
+
+
+
